@@ -1,0 +1,29 @@
+---
+title: "Future MOOC Analysis"
+author: "Akash Mohandoss"
+date: "2022-11-17"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir= normalizePath('..'))
+```
+## INTRODUCTION
+
+To begin with, FutureLearn is a online learning platform which provide online free courses to individuals from international universities. this report encompasses the futurelearn data on learners on how they progressed through the course named "Cyber Security: Safety At Home, Online, and in life", along with some features collected from their profiles. the only common link between every dataset is the learner's id. the task performed in this report is that it applies CRISP-DM framework to perform Exploratory Data Analysis on the on the data after we get the data mergerd and precrocessed.
+
+```{r}
+Gender_table=table(SubsetData$gender)
+
+#Count of each gender
+SubsetData %>% ggplot(aes(gender, fill = gender)) + geom_bar()
+
+#Plot to revels the count of male and female enrolled in the given year range
+SubsetData %>% ggplot(aes(enrolled_at, fill = gender)) + geom_bar()
+
+df_grp_region = SubsetData %>% group_by(detected_country)%>% summarize(count=n(),sort = TRUE)
+df_grp_region
+
+```
+

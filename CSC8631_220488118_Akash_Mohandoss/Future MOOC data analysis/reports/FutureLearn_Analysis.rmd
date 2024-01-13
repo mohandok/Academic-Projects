@@ -1,0 +1,264 @@
+---
+title: "Futurelearn MOOC Data Analysis"
+author: "Akash Mohandoss"
+date: "2022-11-17"
+output: pdf_document
+---
+
+```{r setup, include=FALSE,warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir= normalizePath('..'))
+```
+
+```{r warning=FALSE, message=FALSE}
+library(ProjectTemplate)
+load.project()
+```
+
+## INTRODUCTION
+
+To begin with, FutureLearn is a online learning platform which provide online free courses to individuals from international universities. this report encompasses the futurelearn data on learners on how they progressed through the course named "Cyber Security: Safety At Home, Online, and in life", along with some features collected from their profiles. the only common link between every dataset is the learner's id. the task performed in this report is that we need to apply CRISP-DM framework to perform Exploratory Data Analysis on the on the data after we get the data merged and pre-processed.
+
+## PHASE 1: BUSINESS UNDERSTANDING
+
+As mentioned above, futurelearn data contains the learners progress on a course through the entire period of their enrollment. to avoid distant learning of international students future became a platform to reduce the burden of the individuals. the gain of hte futurelearn is quite high among UK students and other international students and has been competitive among other edtech companies in UK. so futurelearn has it standard good among the society and gain profit through the fees paid and yearly subscriptions. they do gain revenue through FutureLearn shops that sells its products. though its productive and functioning good, some people do find hard to sustain some course and drop it.
+
+Futurelearn offers a diverse selection of courses from top international univiersities and institutions. they can accessed through any electronic devices at any time at any places based on their comfort. it also provides its customer three types of courses based on their payment structure Free, Upgrade, and Unlimited. so a individual is given chances to go through course who are not able to pay but the drawback is that they are not provided with a certificate for the courses which they enroll as free. whereas the other two categories which are paid provide certificate to the students who enroll that. It also provides it customers common forum for each individual course to post their queries and get answers as well as help people who post queries. this will surely help people to improves their understanind in their courses and is a great methodology.
+
+Recently, futurelearn has benefited many students around the globe to get distant education without wasting time during the pandemic crisis. many students has efficiently used this platform despite the cost and has gained good knowledge and spotted a good career who weren't able to travel abroad and did complete their studies in their hometown and got jobs paid with high salaries in top MNC's. They are occasionally providing scholarship for their customers to help big dreamers, future leaders and creative head who are not able to manage their education to get good scholarship in their studies in futurelearn. customers with some scholarships for people Thus, to improve their learning methods even to people of many categories of learning i define a business objective for futurelearn, analyze the dataset and provide the best possible solution to the business and help them upgrade their learning methods. this would probably profit both the futurelearn customers to complete their courses within the time frame and for business in their profit, as people of many interest do enroll in courses that best fit their interests.
+
+### BUSINESS OBJECTIVE
+
+Now Based on the Business understanding futurelearn needs some improvements in their learning pattern to attract more customers to their platform and be the most widely used one's in the edtech platform despite being top ones in the past. data collected thorugh 7 runs of a massive open online course (MOOC) named as "Cyber Security: Safety At Home, Online, and in Life" is provided containing the learners progress through the course, along with the features of the profiles enrolled for the course. analyzing the Business understanding and the data in hand i consider the enrollement data and the leaving response survey to predict the reason for the sudden drop of the course by the profiles enroleed and try to predict what can be the possible business solution that can bee created for the futurelearn platform to overcome it. Therefore, the business goal of this project is to identify the count of Male and Female during the 7 runs time frame and analysis the insights from the findings.
+
+Based on results obtained in the First cycle question as mentioned above i will use the leaving response survey data to identify the maximum likelihood of a person to leave that course. further predictions and analysis can be done on the insights to obtain solutions to improve the business.
+
+### BUSINESS SUCCESS CRITERIA
+
+As per the Business requirement,based on the given dataset we can infer that many question arises to get business a solution on improving their business. the futurelearn keens on improving their way of approach to deliver the courses to the customers. two cycles of analysis is performed on the the given dataset answering the question asked. the two Business objective questions for the two cycle is,
+
+-   What is the count of individuals who enrolled in the course during the period of runs based on the gender?
+-   Based on the above answers given, what are possible reasons for the individuals to drop the course?
+
+Thus from the above two answers we will be able to identify the possible reason among the individuals to drop the course. Business solutions can be generated to overcome this drawback for the course can be applied to the course and to improve the enrollment rate and thereby reducing the individuals dropping the course.
+
+## PHASE 2: DATA UNDERSTANDING
+
+On the Data Understanding phase, we will merge, describe and explore the given data to predict how well it fits the business goals. The given dataset contains data obtained from 7 runs of massive open online course (MOOC) entitled "Cyber Security: Safety At Home, Online, and in Life". each run contains 8 different data about different categories. the 8 different categories are as follows,
+
+-   archetype survey responses
+
+-   enrollments
+
+-   leaving survey responses
+
+-   question response
+
+-   team members
+
+-   step activity
+
+-   weekly sentiment analysis
+
+-   video stats
+
+Of these categories based on the business objectives, we consider the enrollment dataset obtained from 7 runs to identify the count of individual male and female enrolled in the course for the specific time period for the first cycle. On further analysis on the chosen dataset, the data columns in this particular dataset are learner_id, enrolled_at, unenrolled_at, role, fully_participated_at, gender, country, age_range, highest_educaton_level, employment_status, employment_area, and detected_country.
+
+-   **learner_id**- it is a specific has value for the profile who have enrolled in the course. it is unique for each individual or profile.
+
+-   **enrolled_at**- the data and time at which the profile has enrolled the course
+
+-   **unenrolled_at**- the date and time at which the profile has unenrolled the course
+
+-   **role**- specifies whether the profile is a learner or a admin.
+
+-   **fully_participated_at**- the datatimestamp value which contain the date and tme at which the person has fully worked on the course.
+
+-   **gender**- specifies the gender of the profile
+
+-   **country**- contains the country of the profile from where he has enrolled. this value is given by the profile created person.
+
+-   **age_range**- the age of the profile person enrolled the course
+
+-   **highest_educaton_level**- the highest education level that he/she has studied earlier before enrolling this course.
+
+-   **employment_status**- the current employment status of the profile person
+
+-   **detected_country**- the country detected through gps of the device through which he/she has enrolled.
+
+## PHASE 3: DATA PREPARATION
+
+The enrollments dataset of all the 7 runs are combined together and is stored as Combined_table1 which contains all the data of all dataset based on the Learner_id columns which is the common column which act as a primary key among columns which can be used to merge file based on it. this phase contains two steps:
+
+-   Data Cleansing
+
+-   Final data for modeling
+
+### Data Cleansing
+
+```{r,warning=FALSE, message=FALSE,echo=FALSE}
+Combined_table1 <-rbind(cyber.security.1_enrolments,cyber.security.2_enrolments,cyber.security.3_enrolments,
+                        cyber.security.4_enrolments,cyber.security.5_enrolments,cyber.security.6_enrolments,cyber.security.7_enrolments)
+str(Combined_table1)
+```
+
+the above code displays the characteristics of the data of Combined_table1.
+
+-   Number of rows = 37296
+
+-   Number of columns = 13
+
+-   All the variables are of Char datatype.
+
+```{r}
+summary(Combined_table1)
+dim(Combined_table1)
+```
+
+the combined table obtained contains all the rows removing the duplicates. the total number of entries in the table is 37296 and contains 13 variables and all the variable are char datatype. the summary of the combined table is displayed above.it can be inferred that all the variables are character. data pre-processing removes the unknown, NA and NULL values from the combined dataset and a new refined dataset is generated as a subset from the combined dataset and is named SubsetData.
+
+### Data Cleansing
+
+```{r,warning=FALSE, message=FALSE,echo=FALSE}
+Combined_table1<-Combined_table1[!(Combined_table1$gender=="Unknown"),]
+Combined_table1<-Combined_table1[!(Combined_table1$country=="Unknown"),]
+Combined_table1<-Combined_table1[!(Combined_table1$age_range=="Unknown"),]
+Combined_table1<-Combined_table1[!(Combined_table1$age_range=="NA"),]
+Combined_table1<-Combined_table1[!(Combined_table1$enrolled_at=="Unknown"),]
+Combined_table1<- Combined_table1[!is.na(Combined_table1$unenrolled_at), ]
+Combined_table1<-Combined_table1[!(Combined_table1$enrolled_at=="NA"),]
+Combined_table1<-Combined_table1[!(Combined_table1$detected_country=="--"),]
+Combined_table1<-Combined_table1[!(Combined_table1$unenrolled_at==" "),]
+
+SubsetData= Combined_table1 [c(1:3,7,9,10,11,13)]
+
+SubsetData=na.omit(SubsetData)
+str(SubsetData)
+```
+
+Finally after data cleansing we got our final subset data that we can use for further analysis and modelling. the variable which is best needed for us to answer the business objective and will be used in future analysis. the variable that we consider for predicting the results are enrolled_at, unenrolled_at, gender, age_range, highest_education_level, employment_status, detected_country. the enrolled_at is a date value i have reduced only the year quantity in and stored in that variable during pre-processing. so, based on the year we are calculating the count of individual who have enrolled and showing the male and female count in a bar plot displayed below.
+
+## MODELLING
+
+### Exploratory Data Analysis
+
+In this Phase Exploratory Data analysis is performed on the dataset to get some meaningful information. a scatterplot matrix is generated for all the variables in the SubsetData dataset excluding the Learner_id column. Based on the below plot the variable enrolled_at, gender, age_range, highest_education_level, employment status are mostly categorical values. the detected_country variable has all its data points scattered evenly in the scatterplot. the varaibles enrolled_at and gender has its data scattered evely across the plot.
+
+```{r}
+plot(SubsetData[,-1],col='blue')
+
+```
+
+```{r}
+summary(SubsetData)
+dim(SubsetData)
+```
+
+Numerical summaried are generated for the SubsetData which has one date column representing the year at which the individual has enrolled in the course. the other variables are char datatype so just the length of the column is getting displayed and their respective characteristics. the dimension of the SubsetData is 3880 rows and 8 columns.
+
+Now we start creating model for the data we have pre-processed and try to make analysis and get insights from the plots. the below table shows us the count of each gender category by count. they are four category taken into consideration and they are Male, Female, Nonbinary, and Others. From the table we can infer that the Male count is higher when compared all the other genders. the Non-Binary and the Other category counts are too low compared to male and female.
+
+| Female | Male | NonBinary | other |
+|--------|------|-----------|-------|
+| 1774   | 2083 | 10        | 13    |
+
+```{r}
+#Gender count table
+Gender_table=table(SubsetData$gender)
+```
+
+```{r}
+#Count of each gender in each age category
+SubsetData %>% ggplot(aes(age_range, fill =gender )) + geom_bar()
+```
+
+The above bar plot displays the count of individuals in each age category and also shows the proportion of each gender categories in that specific age group. from the above, it is clearly seen that individuals in the age group of 26-35 have enrolled more compared to all other categories. it is also clear that the male population in all the age group are higher in ratio. whereas on the later part, the nonbinary and the gender category don't have much proportion in the bar plot.
+
+## EVALUATION
+
+At this stage of first cycle, we will be evaluating the results obtained from the above modelling. the above plotted models clearly shows that the proportion of people who have enrolled courses have been reduced from 2016 to 2018.
+
+```{r}
+#Plot to reveal the count of male and female enrolled in the given year range
+SubsetData %>% ggplot(aes(enrolled_at, fill = gender)) + geom_bar()
+```
+
+The above bar graph delineates the count of male and female species in a specific year range. the year value here in this variable is 2016, 2017, and 2018. the proportion of people enrolled in each year is counted and is displayed using gplot function. Based on the above plot we can easily say that the number of enrollments have dropped from the year 2016\>2017\>2018. the population of individuals enrolling for the course became less.
+
+it also states that in all the cases, the Male proportion is higher than the female proportion. the bar plot that shows the count of individual in different age category clearly show us that the people below age 18 are the least enrolled in the course.
+
+## CYCLE 2
+
+## BUSINESS UNDERSTANDING
+
+In this cycle, we once again recap the business goal and how to achieve the success criteria. futurelearn involves a bunch of courses being available to every individual who wants to be a creative head. it performs many events as well online platform events to increase the futurelearn customers. thus we need to somehow find some insights from the data to improve their standards.
+
+from the previous cycle we found that the number of enrollments for the time range of the run is decreasing the upcoming years. if this prevails then there might be minor black mark on the futurelearn platform in future. so we need to know why there is a drop in the enrollment rate in further upcoming years of the 7 run data. what is the main reason that made people think to drop the courses or not to enroll. these question will be further discussed in the business objective forum and possible solution will be provided.
+
+### BUSINESS OBJECTIVE
+
+Now as the Business requirement has been modified based on the 1st cycle, the objectives of the business needs to be re-framed and possible solution need to be overcomed for the futurelearn platform to be benefited.On the previous cycle it has been analysed that the enrollment rate is dropping upcoming years. so we need to frame the business objective so that possible solution is framed and useful insights are obtained through analysis. the current business objective which need to be answered is,
+
+-   What is reason for drop in enrollment rates of the people?
+
+-   What can be done to overcome this drawback?
+
+## DATA UNDERSTANDING
+
+In this phase of the 2nd cycle, we will discuss about the datasets that we need to indulge in the modelling process. for this cycle, we are going to use the leaving survey response dataset from 7 runs ad its values to predict the exact reason why people arent undertaking the course.
+
+the different variables available in the leaving survey response are,
+
+-   **id**- it represent the unique id for the survey
+
+-   **learner_id** - the learners id unique for each profile individual
+
+-   **left_at** - the date on which the profile person left the course
+
+-   **leaving_reason** - the reason for dropping the course
+
+-   **last_completed_step_at** - the date on which the last step was completed in the course by the individual
+
+-   **last_completed_step** -the last completed step in the course by the individual
+
+-   **last_completed_week_number** - the last week number the person used the course
+
+-   **last_completed_step_number** - the step number in the course that was lastly completed.
+
+
+## DATA PREPARATION
+
+In this phase of the 2nd cycle, we will be merging and exploring the learning survey response dataset. all the dataset from the 7 runs are merged together with key as the Learner_id. this mena that there wont be any duplicated values in the dataset.
+```{r}
+
+Combined_table2 <-rbind(cyber.security.1_leaving.survey.responses,cyber.security.2_leaving.survey.responses,cyber.security.3_leaving.survey.responses,cyber.security.4_leaving.survey.responses,cyber.security.5_leaving.survey.responses,cyber.security.6_leaving.survey.responses,cyber.security.7_leaving.survey.responses)
+
+Combined_table2$left_at=year(Combined_table2$left_at)
+Combined_table2<-na.omit(Combined_table2)
+SubsetData1<-Combined_table2[c(3,4)]
+
+str(Combined_table2)
+dim(Combined_table2)
+```
+Then the combined dataset is analysed to remove the NA, Unknown, and NULL values. the dimension of the combined table is 403 with 8 variables. the columns that are preffixed with last completed we will neglect that since it has large NA values. we're also converting the left_at variable to numerical value by filtering just the year value from the string datetimestamp.
+
+## MODELLING
+
+In this segment of the 2nd cycle, we will be focusing on generating model to identify the reason for drop in the rates of the enrollment of the individuals.
+
+```{r fig.align='left', out.width = "100px", dpi=300, fig.cap="a small graph to zoom in, when necessary"}
+library(dplyr)
+Combined_table2 %>% ggplot(aes(left_at, fill=leaving_reason ))+geom_bar()
+Combined_table2 %>% ggplot(aes(leaving_reason ))+geom_bar()
+```
+As shown in the above graph, we can see that people saying "I don't ave enough time" and people mentioning "Other" are mostly high in all cases. Since these two reason strikes most people we can improve our futurelearn learning platform by implementing key featues where, time management can be done by the individual on learning the course as well as focusing on his or her personal works.
+
+##EVALUATION
+
+Evaluation is carried over in this phase of the cycle where the the model and the results that have been produced earlier do show a good results and the business objective on top of the circle was covered. we first identified the count of people who have been enrolled furing particular time period. this showed us results where there is a drop in the enrollment rate of people in futurelearn platform. 
+
+Next, we try to plot a model which identifies the reason, to which most people rely on so that we can improve the features of futurelearn to attracts more customer to the environment.
+
+## DEPLOYMENT
+
+Deployment phase focuses on deploying the models identified to answer the business objective to the business. it invloves code deployment, presentation and explaining the analysis that has been done on the dataset to produce possible solution to the business objective.
