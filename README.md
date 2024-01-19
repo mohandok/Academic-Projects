@@ -1,2 +1,1 @@
-
-setting up repository for project
+In the pursuit of academic excellence, I have actively engaged in various projects that demonstrate my passion for Computing. Each project reflects my commitment to applying theoretical knowledge to real-world challenges. 
